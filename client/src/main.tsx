@@ -4,6 +4,8 @@ import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import Main from "./layouts/Main";
 import Index from "./pages/Index";
+import AdminPanel from "./pages/AdminPanel";
+import AdminLogin from "./pages/Login";
 
 const router = createBrowserRouter([
   {
@@ -13,6 +15,14 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Index />,
+      },
+      {
+        path: "/admin",
+        element: <AdminPanel />,
+      },
+      {
+        path: "/login",
+        element: <AdminLogin />,
       },
     ],
   },

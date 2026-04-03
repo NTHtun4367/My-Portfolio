@@ -125,7 +125,7 @@ export default function Projects() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             id="projects"
-            className="min-h-screen pt-36 px-6 text-white"
+            className="min-h-screen pt-36 md:px-6 text-white"
           >
             <div className="max-w-6xl mx-auto">
               {/* Section Header */}
@@ -134,7 +134,7 @@ export default function Projects() {
                   initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8 }}
-                  className="text-5xl md:text-6xl font-bold text-white tracking-tighter"
+                  className="text-4xl md:text-6xl font-bold text-white tracking-tighter"
                 >
                   Featured <span className="text-blue-400">Works</span>
                 </motion.h2>

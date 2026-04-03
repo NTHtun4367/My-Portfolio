@@ -8,9 +8,9 @@ import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 export default function Contact() {
   return (
-    <section id="contact" className="py-32 px-6 relative overflow-hidden">
+    <section id="contact" className="py-32 md:px-6 relative overflow-hidden">
       {/* Subtle Background Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-125 bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-125 md:bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Main Header */}
@@ -19,7 +19,7 @@ export default function Contact() {
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-5xl md:text-6xl font-bold text-white tracking-tighter"
+            className="text-4xl md:text-6xl font-bold text-white tracking-tighter"
           >
             Get in <span className="text-blue-400">Touch</span>
           </motion.h2>

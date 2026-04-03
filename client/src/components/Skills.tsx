@@ -1,103 +1,97 @@
 import { motion } from "framer-motion";
-import {
-  SiHtml5,
-  SiCss,
-  SiJavascript,
-  SiReact,
-  SiNextdotjs,
-  SiTypescript,
-  SiTailwindcss,
-  SiNodedotjs,
-  SiExpress,
-  SiMongodb,
-  SiPostgresql,
-  SiFramer,
-  SiGit,
-  SiDocker,
-  SiDrizzle,
-  SiFigma,
-  SiMysql,
-  SiCloudinary,
-  SiPython,
-  SiRedux,
-  SiShadcnui,
-  SiMongoose,
-  SiCplusplus,
-  SiC,
-  SiOpenjdk,
-  SiPhp,
-  SiGithub,
-  SiCypress,
-  SiPostman,
-} from "react-icons/si";
 import { HiSparkles } from "react-icons/hi2";
+import { IconMap } from "../common/Icons";
 
 const SKILL_GROUPS = [
   {
     title: "Fullstack Expertise",
     description: "Main stack for building scalable web apps",
     skills: [
-      { name: "React", icon: <SiReact />, color: "text-cyan-400" },
-      { name: "Next.js", icon: <SiNextdotjs />, color: "text-white" },
-      { name: "TypeScript", icon: <SiTypescript />, color: "text-blue-600" },
-      { name: "Node.js", icon: <SiNodedotjs />, color: "text-green-500" },
-      { name: "Tailwind", icon: <SiTailwindcss />, color: "text-sky-400" },
-      { name: "Redux / RTK", icon: <SiRedux />, color: "text-purple-500" },
+      { name: "React", icon: IconMap["react"], color: "text-cyan-400" },
+      { name: "Next.js", icon: IconMap["nextjs"], color: "text-white" },
+      {
+        name: "TypeScript",
+        icon: IconMap["typescript"],
+        color: "text-blue-600",
+      },
+      { name: "Node.js", icon: IconMap["node"], color: "text-green-500" },
+      { name: "Tailwind", icon: IconMap["tailwind"], color: "text-sky-400" },
+      { name: "Redux / RTK", icon: IconMap["redux"], color: "text-purple-500" },
       {
         name: "Zustand",
         icon: <span className="font-bold">Z</span>,
         color: "text-amber-700",
       },
-      { name: "Shadcn UI", icon: <SiShadcnui />, color: "text-white" },
-      { name: "Framer Motion", icon: <SiFramer />, color: "text-pink-500" },
+      { name: "Shadcn UI", icon: IconMap["shadcn"], color: "text-white" },
+      {
+        name: "Framer Motion",
+        icon: IconMap["framer"],
+        color: "text-pink-500",
+      },
     ],
   },
   {
     title: "Backend & Database",
     description: "Architecture and data management",
     skills: [
-      { name: "Express", icon: <SiExpress />, color: "text-zinc-400" },
-      { name: "MongoDB", icon: <SiMongodb />, color: "text-emerald-500" },
-      { name: "Mongoose", icon: <SiMongoose />, color: "text-red-600" },
-      { name: "PostgreSQL", icon: <SiPostgresql />, color: "text-indigo-400" },
-      { name: "MySQL", icon: <SiMysql />, color: "text-blue-400" },
-      { name: "Drizzle", icon: <SiDrizzle />, color: "text-[#C5F74F]" },
-      { name: "Cloudinary", icon: <SiCloudinary />, color: "text-blue-400" },
-      { name: "REST APIs", icon: <HiSparkles />, color: "text-yellow-500" },
+      { name: "Express", icon: IconMap["express"], color: "text-zinc-400" },
+      { name: "MongoDB", icon: IconMap["mongodb"], color: "text-emerald-500" },
+      { name: "Mongoose", icon: IconMap["mongoose"], color: "text-red-600" },
+      {
+        name: "PostgreSQL",
+        icon: IconMap["postgresql"],
+        color: "text-indigo-400",
+      },
+      { name: "MySQL", icon: IconMap["mysql"], color: "text-blue-400" },
+      { name: "Drizzle", icon: IconMap["drizzle"], color: "text-[#C5F74F]" },
+      {
+        name: "Cloudinary",
+        icon: IconMap["cloudinary"],
+        color: "text-blue-400",
+      },
+      {
+        name: "REST APIs",
+        icon: <HiSparkles />,
+        color: "text-yellow-500",
+      },
     ],
   },
   {
     title: "Academic Foundation",
     description: "Core Computer Science from University",
     skills: [
-      { name: "C Language", icon: <SiC />, color: "text-blue-500" },
-      { name: "C++", icon: <SiCplusplus />, color: "text-blue-600" },
-      { name: "Java", icon: <SiOpenjdk />, color: "text-orange-500" },
-      { name: "PHP", icon: <SiPhp />, color: "text-indigo-400" },
-      { name: "HTML5", icon: <SiHtml5 />, color: "text-orange-500" },
-      { name: "CSS3", icon: <SiCss />, color: "text-blue-500" },
-      { name: "JavaScript", icon: <SiJavascript />, color: "text-yellow-400" },
+      { name: "C Language", icon: IconMap["c"], color: "text-blue-500" },
+      { name: "C++", icon: IconMap["cpp"], color: "text-blue-600" },
+      { name: "Java", icon: IconMap["java"], color: "text-orange-500" },
+      { name: "PHP", icon: IconMap["php"], color: "text-indigo-400" },
+      { name: "HTML5", icon: IconMap["html"], color: "text-orange-500" },
+      { name: "CSS3", icon: IconMap["css"], color: "text-blue-500" },
+      {
+        name: "JavaScript",
+        icon: IconMap["javascript"],
+        color: "text-yellow-400",
+      },
     ],
   },
   {
     title: "Tools & Learning",
     description: "Workflow, DevOps & Future paths",
     skills: [
-      { name: "Git", icon: <SiGit />, color: "text-orange-600" },
-      { name: "GitHub", icon: <SiGithub />, color: "text-white" },
-      { name: "Docker", icon: <SiDocker />, color: "text-blue-500" },
-      { name: "Figma", icon: <SiFigma />, color: "text-purple-400" },
-      { name: "Postman", icon: <SiPostman />, color: "text-orange-500" },
-      { name: "Cypress", icon: <SiCypress />, color: "text-emerald-400" },
+      { name: "Git", icon: IconMap["git"], color: "text-orange-600" },
+      { name: "GitHub", icon: IconMap["github"], color: "text-white" },
+      { name: "Docker", icon: IconMap["docker"], color: "text-blue-500" },
+      { name: "Figma", icon: IconMap["figma"], color: "text-purple-400" },
+      { name: "Postman", icon: IconMap["postman"], color: "text-orange-500" },
+      { name: "Cypress", icon: IconMap["cypress"], color: "text-emerald-400" },
       {
         name: "React Native",
-        icon: <SiReact />,
+        icon: IconMap["react"],
         color: "text-cyan-400",
         isLearning: true,
       },
       {
         name: "Python (AI)",
-        icon: <SiPython />,
+        icon: IconMap["python"],
         color: "text-yellow-500",
         isLearning: true,
       },
@@ -126,7 +120,7 @@ const cardVariants = {
 
 export default function Skills() {
   return (
-    <section id="skills" className="pt-36 px-6 relative">
+    <section id="skills" className="pt-36 md:px-6 relative">
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
         <div className="mb-20 space-y-4 flex flex-col items-center text-center">
@@ -134,7 +128,7 @@ export default function Skills() {
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-5xl md:text-6xl font-bold text-white tracking-tighter"
+            className="text-4xl md:text-6xl font-bold text-white tracking-tighter"
           >
             Skills & <span className="text-blue-400">Expertise</span>
           </motion.h2>

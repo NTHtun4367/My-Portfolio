@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import Counter from "./Counter";
 
 export default function AboutNarrative() {
   const metrics = [
@@ -9,7 +10,10 @@ export default function AboutNarrative() {
   ];
 
   return (
-    <motion.section id="about" className="pt-36 px-6 relative overflow-hidden">
+    <motion.section
+      id="about"
+      className="md:pt-36 md:px-6 relative overflow-hidden"
+    >
       <div className="absolute inset-0 flex justify-around items-center opacity-[0.02] select-none pointer-events-none">
         {metrics.map((m, i) => (
           <span key={i} className="text-[18vw] font-black tracking-tighter">
@@ -25,26 +29,32 @@ export default function AboutNarrative() {
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-5xl md:text-6xl font-bold text-white tracking-tighter"
+            className="text-4xl md:text-6xl font-bold text-white tracking-tighter"
           >
             About <span className="text-blue-400">Me</span>
           </motion.h2>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
-          {/* Left Column: Metrics Grid */}
-          <div className="lg:col-span-5">
-            <div className="grid grid-cols-2 gap-8">
+        <div className="flex flex-col lg:flex-row gap-12 items-center lg:items-start w-full">
+          <div className="w-full lg:flex-1">
+            <div className="grid grid-cols-2 gap-8 justify-items-center">
               {metrics.map((metric, idx) => (
                 <motion.div
                   key={idx}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: idx * 0.1 }}
+                  transition={{ duration: 0.4, delay: idx * 0.1 }}
+                  className="flex flex-col items-center text-center"
                 >
-                  <p className={`text-4xl font-bold font-mono ${metric.color}`}>
-                    {metric.value}
-                  </p>
+                  <div
+                    className={`text-3xl md:text-4xl font-bold font-mono ${metric.color}`}
+                  >
+                    {metric.value === "24/7" ? (
+                      <span>{metric.value}</span>
+                    ) : (
+                      <Counter value={metric.value} color={metric.color} />
+                    )}
+                  </div>
                   <p className="text-zinc-500 text-xs uppercase tracking-widest mt-1">
                     {metric.label}
                   </p>
@@ -54,7 +64,7 @@ export default function AboutNarrative() {
           </div>
 
           {/* Right Column: Narrative Content */}
-          <div className="lg:col-span-7 lg:pl-12">
+          <div className="flex-1">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -62,7 +72,7 @@ export default function AboutNarrative() {
               className="space-y-12"
             >
               {/* Bio Block */}
-              <p className="text-zinc-300 text-xl leading-relaxed font-light">
+              <p className="text-zinc-300 text-lg md:text-xl leading-relaxed font-light">
                 I'm{" "}
                 <span className="text-white font-medium">
                   Full-Stack Developer
@@ -84,7 +94,7 @@ export default function AboutNarrative() {
             className=" flex-1 space-y-4"
           >
             <div className="flex items-center gap-4">
-              <div className="h-px w-8 bg-blue-500/50" />
+              <div className="h-0.5 w-8 bg-blue-500/50" />
               <h4 className="text-white font-bold text-lg uppercase tracking-wider">
                 Technical Philosophy
               </h4>
@@ -92,9 +102,8 @@ export default function AboutNarrative() {
             <p className="text-zinc-500 text-base leading-relaxed">
               I believe in <span className="text-zinc-300">Type-Safety</span>{" "}
               and <span className="text-zinc-300">Clean Architecture</span>.
-              Using TypeScript, I ensure that the data flow is
-              predictable and the codebase remains maintainable as the product
-              scales.
+              Using TypeScript, I ensure that the data flow is predictable and
+              the codebase remains maintainable as the product scales.
             </p>
           </motion.div>
 
@@ -106,7 +115,7 @@ export default function AboutNarrative() {
             className="flex-1 space-y-4"
           >
             <div className="flex items-center gap-4">
-              <div className="h-px w-8 bg-purple-500/50" />
+              <div className="h-0.5 w-8 bg-purple-500/50" />
               <h4 className="text-white font-bold text-lg uppercase tracking-wider">
                 Current Learning Path
               </h4>

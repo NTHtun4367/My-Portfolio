@@ -4,10 +4,14 @@ import { FiDownload } from "react-icons/fi";
 import { HiArrowUpRight } from "react-icons/hi2";
 import { containerVariants, itemVariants } from "../utils/variants";
 
+import profile from "@/assets/profile.jpg";
+import useMediaQuery from "../hooks/useMediaQuery";
+
 export default function Hero() {
   const [text, setText] = useState("");
   const [index, setIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
+  const isDesktop = useMediaQuery("(min-width: 768px)");
 
   const NAME = "Nay Thu Htun.";
 
@@ -39,7 +43,7 @@ export default function Hero() {
     <>
       <section
         id="home"
-        className="relative min-h-screen flex items-center justify-center pt-12 px-6 overflow-hidden"
+        className="relative min-h-screen flex items-center justify-center md:pt-12 md:px-6 overflow-hidden"
       >
         <motion.div
           variants={containerVariants}
@@ -58,7 +62,7 @@ export default function Hero() {
 
             <motion.h1
               variants={itemVariants}
-              className="text-6xl sm:text-7xl md:text-7xl font-bold leading-tight text-white tracking-tighter"
+              className="text-4xl md:text-7xl font-bold leading-tight text-white tracking-tighter"
             >
               Hello I&apos;m <br />
               <span className="font-mono text-blue-400">
@@ -69,7 +73,7 @@ export default function Hero() {
 
             <motion.p
               variants={itemVariants}
-              className="mt-8 text-zinc-400 max-w-xl text-lg font-light leading-relaxed"
+              className="mt-8 text-zinc-400 max-w-xl text-sm md:text-lg font-light leading-relaxed"
             >
               A 21-year-old developer motivated to build modern and useful web
               apps. I enjoy turning ideas into real products with clean code.
@@ -77,18 +81,18 @@ export default function Hero() {
 
             <motion.div
               variants={itemVariants}
-              className="mt-10 flex flex-wrap items-center gap-5"
+              className="mt-10 flex items-center gap-5"
             >
               <a
                 href="#projects"
-                className="flex items-center gap-2 px-6 py-3 bg-blue-400 text-white rounded-full hover:bg-blue-400/10 transition-colors font-semibold"
+                className="flex items-center gap-2 px-6 py-3 text-xs md:text-base bg-blue-400 text-white rounded-full hover:bg-blue-400/10 transition-colors font-semibold"
               >
                 View Projects <HiArrowUpRight />
               </a>
 
               <a
-                href="#cv"
-                className="flex items-center gap-2 px-6 py-3 border-2 border-dashed border-blue-400 text-blue-400 rounded-full hover:bg-blue-400/10 transition-colors font-semibold"
+                href="../../public/CV Resume.pdf"
+                className="flex items-center gap-2 px-6 py-3 text-xs md:text-base border-2 border-dashed border-blue-400 text-blue-400 rounded-full hover:bg-blue-400/10 transition-colors font-semibold"
               >
                 Download CV <FiDownload />
               </a>
@@ -98,7 +102,7 @@ export default function Hero() {
           {/* right column */}
           <motion.div
             variants={itemVariants}
-            className="relative flex items-center justify-center"
+            className={`relative flex items-center justify-center ${!isDesktop && "hidden"}`}
           >
             <motion.div
               animate={{ rotate: 360 }}
@@ -108,7 +112,7 @@ export default function Hero() {
 
             <div className="w-64 h-64 sm:w-95 sm:h-95 rounded-full overflow-hidden border border-zinc-800 bg-zinc-900 shadow-2xl relative z-10">
               <img
-                src="/path-to-your-photo.jpg"
+                src={profile}
                 alt="Nay Thu Htun"
                 className="w-full h-full object-cover"
               />
