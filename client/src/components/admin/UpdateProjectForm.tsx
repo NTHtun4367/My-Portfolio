@@ -1,4 +1,5 @@
-import { useForm, useFieldArray } from "react-hook-form";
+import { useState } from "react";
+import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
 import {
@@ -11,6 +12,7 @@ import {
   HiArrowLeft,
   HiOutlineDocumentText,
   HiOutlineGlobeAlt,
+  HiPhoto,
 } from "react-icons/hi2";
 import { FiSave, FiGithub, FiExternalLink } from "react-icons/fi";
 import { projectSchema, type ProjectFormValues } from "../../schema/schema";
@@ -26,16 +28,30 @@ export default function UpdateProjectForm({
   initialData,
   onSubmit,
   onCancel,
+  isLoading,
 }: any) {
-  const form = useForm<ProjectFormValues>({
+  // Use existing image URL if available
+  const [preview, setPreview] = useState<string | null>(
+    initialData?.image?.url || null,
+  );
+
+  const {
+    control,
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm<ProjectFormValues>({
     resolver: zodResolver(projectSchema),
     defaultValues: {
       ...initialData,
+      image: initialData?.image || undefined,
       tech:
-        initialData.tech?.map((t: any) =>
-          typeof t === "string" ? t : t.name.toLowerCase(),
+        initialData?.tech?.map((t: any) =>
+          typeof t === "string" ? t : t.name?.toLowerCase(),
         ) || [],
-      features: initialData.features || [],
+      features: initialData?.features || [],
     },
   });
 
@@ -45,7 +61,7 @@ export default function UpdateProjectForm({
     remove: removeFeature,
   } = useFieldArray({
     name: "features",
-    control: form.control,
+    control,
   });
 
   const availableTech = Object.keys(IconMap).filter(
@@ -53,11 +69,11 @@ export default function UpdateProjectForm({
   );
 
   const toggleTech = (techKey: string) => {
-    const currentTech = form.getValues("tech");
+    const currentTech = watch("tech");
     const updated = currentTech.includes(techKey)
-      ? currentTech.filter((t) => t !== techKey)
+      ? currentTech.filter((t: string) => t !== techKey)
       : [...currentTech, techKey];
-    form.setValue("tech", updated, { shouldValidate: true });
+    setValue("tech", updated, { shouldValidate: true });
   };
 
   return (
@@ -68,73 +84,135 @@ export default function UpdateProjectForm({
     >
       <div className="absolute -top-24 -left-24 w-96 h-96 bg-blue-600/5 blur-[100px] rounded-full pointer-events-none" />
 
-      {/* Header */}
       <div className="flex justify-between items-center mb-10 border-b border-zinc-800/50 pb-6">
         <h2 className="text-2xl md:text-4xl font-bold tracking-tighter">
-          Update <span className="text-blue-400">Project</span>
+          {initialData?._id ? "Update" : "Create"}
+          <span className="text-blue-400"> Project</span>
         </h2>
-        <button
+        <Button
+          variant={"outline"}
           onClick={onCancel}
-          className="flex items-center gap-2 text-zinc-500 hover:text-white transition-colors font-mono text-xs uppercase tracking-widest group"
+          type="button"
+          className="flex items-center gap-2 text-zinc-500 transition-colors font-mono text-xs uppercase tracking-widest group"
         >
           <HiArrowLeft className="group-hover:-translate-x-1 transition-transform" />{" "}
           Back
-        </button>
+        </Button>
       </div>
 
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-12">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-12">
         <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Field className="md:col-span-2">
-            <FieldLabel className="text-zinc-500 font-mono text-[10px] uppercase tracking-widest">
+          <div className="md:col-span-2">
+            <FieldLabel className="text-zinc-500 font-mono text-[10px] uppercase tracking-widest ml-1">
               Project Title
             </FieldLabel>
-            <Input
-              {...form.register("title")}
-              className="bg-zinc-900/50 border-zinc-800 h-12 rounded-xl text-lg font-semibold"
-              placeholder="Project Name"
+            <Controller
+              name="title"
+              control={control}
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  className="bg-zinc-900/50 border-zinc-800 h-12 rounded-xl text-lg font-semibold text-white"
+                  placeholder="Project Name"
+                />
+              )}
             />
-            <FieldError>{form.formState.errors.title?.message}</FieldError>
-          </Field>
-          <Field>
-            <FieldLabel className="text-zinc-500 font-mono text-[10px] uppercase tracking-widest">
+            <FieldError>{errors.title?.message}</FieldError>
+          </div>
+          <div>
+            <FieldLabel className="text-zinc-500 font-mono text-[10px] uppercase tracking-widest ml-1">
               Category
             </FieldLabel>
-            <Input
-              {...form.register("category")}
-              className="bg-zinc-900/50 border-zinc-800 h-12 rounded-xl"
-              placeholder="e.g. Web App"
+            <Controller
+              name="category"
+              control={control}
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  className="bg-zinc-900/50 border-zinc-800 h-12 rounded-xl text-white"
+                  placeholder="e.g. Web App"
+                />
+              )}
             />
-          </Field>
+            <FieldError>{errors.category?.message}</FieldError>
+          </div>
         </section>
 
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 bg-zinc-900/20 rounded-3xl border border-zinc-800/50">
-          <Field>
-            <FieldLabel className="flex items-center gap-2 text-zinc-500 font-mono text-[10px] uppercase tracking-widest">
-              <FiGithub /> GitHub
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 bg-zinc-900/20 rounded-3xl border border-zinc-800/50 items-center">
+          <div className="md:col-span-1">
+            <FieldLabel className="flex items-center gap-2 text-zinc-500 font-mono text-[10px] uppercase tracking-widest mb-3 ml-1">
+              <HiPhoto /> Cover Image
             </FieldLabel>
-            <Input
-              {...form.register("github")}
-              className="bg-zinc-950 border-zinc-800 rounded-lg h-10"
+            <Controller
+              name="image"
+              control={control}
+              render={({ field: { onChange } }) => (
+                <div className="relative group aspect-video rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-950 flex items-center justify-center">
+                  {preview ? (
+                    <img
+                      src={preview}
+                      className="size-full object-cover"
+                      alt="Preview"
+                    />
+                  ) : (
+                    <HiPhoto className="size-10 text-zinc-800" />
+                  )}
+                  <label className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer text-xs font-bold uppercase tracking-tighter">
+                    <span>{initialData?._id ? "Change" : "Add"} Image</span>
+                    <input
+                      type="file"
+                      className="hidden"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          onChange(file);
+                          const reader = new FileReader();
+                          reader.onloadend = () =>
+                            setPreview(reader.result as string);
+                          reader.readAsDataURL(file);
+                        }
+                      }}
+                    />
+                  </label>
+                </div>
+              )}
             />
-          </Field>
-          <Field>
-            <FieldLabel className="flex items-center gap-2 text-zinc-500 font-mono text-[10px] uppercase tracking-widest">
-              <FiExternalLink /> Demo
-            </FieldLabel>
-            <Input
-              {...form.register("live")}
-              className="bg-zinc-950 border-zinc-800 rounded-lg h-10"
-            />
-          </Field>
-          <Field>
-            <FieldLabel className="text-zinc-500 font-mono text-[10px] uppercase tracking-widest">
-              Main Image URL
-            </FieldLabel>
-            <Input
-              {...form.register("image")}
-              className="bg-zinc-950 border-zinc-800 rounded-lg h-10"
-            />
-          </Field>
+            <FieldError>{errors.image?.message as any}</FieldError>
+          </div>
+
+          <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Field>
+              <FieldLabel className="flex items-center gap-2 text-zinc-500 font-mono text-[10px] uppercase tracking-widest ml-1">
+                <FiGithub /> GitHub
+              </FieldLabel>
+              <Controller
+                name="github"
+                control={control}
+                render={({ field }) => (
+                  <Input
+                    {...field}
+                    className="bg-zinc-950 border-zinc-800 rounded-lg h-10 text-white"
+                  />
+                )}
+              />
+            </Field>
+            <Field>
+              <FieldLabel className="flex items-center gap-2 text-zinc-500 font-mono text-[10px] uppercase tracking-widest ml-1">
+                <FiExternalLink /> Demo
+              </FieldLabel>
+              <Controller
+                name="live"
+                control={control}
+                render={({ field }) => (
+                  <Input
+                    {...field}
+                    className="bg-zinc-950 border-zinc-800 rounded-lg h-10 text-white"
+                  />
+                )}
+              />
+            </Field>
+          </div>
         </section>
 
         <section className="space-y-6">
@@ -144,28 +222,40 @@ export default function UpdateProjectForm({
               About the Project
             </h3>
           </div>
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Field>
-              <FieldLabel className="text-[10px] uppercase text-zinc-500">
-                Short Summary (Grid View)
+              <FieldLabel className="text-[10px] uppercase text-zinc-500 ml-1">
+                Short Summary
               </FieldLabel>
-              <Textarea
-                {...form.register("description")}
-                className="bg-zinc-900/50 border-zinc-800 rounded-xl h-24 resize-none"
+              <Controller
+                name="description"
+                control={control}
+                render={({ field }) => (
+                  <Textarea
+                    {...field}
+                    className="bg-zinc-900/50 border-zinc-800 rounded-xl h-24 resize-none text-white"
+                  />
+                )}
               />
+              <FieldError>{errors.description?.message}</FieldError>
             </Field>
             <Field>
-              <FieldLabel className="text-[10px] uppercase text-zinc-500">
-                Detailed Story (Detail View)
+              <FieldLabel className="text-[10px] uppercase text-zinc-500 ml-1">
+                Detailed Story
               </FieldLabel>
-              <Textarea
-                {...form.register("longDescription")}
-                className="bg-zinc-900/50 border-zinc-800 rounded-xl h-24 resize-none"
+              <Controller
+                name="longDescription"
+                control={control}
+                render={({ field }) => (
+                  <Textarea
+                    {...field}
+                    className="bg-zinc-900/50 border-zinc-800 rounded-xl h-24 resize-none text-white"
+                  />
+                )}
               />
+              <FieldError>{errors.longDescription?.message}</FieldError>
             </Field>
           </div>
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Field>
               <div className="flex items-center gap-2 mb-2 text-blue-400/70">
@@ -174,9 +264,15 @@ export default function UpdateProjectForm({
                   The Problem
                 </span>
               </div>
-              <Textarea
-                {...form.register("problem")}
-                className="bg-zinc-950 border-zinc-800 rounded-xl h-20 resize-none"
+              <Controller
+                name="problem"
+                control={control}
+                render={({ field }) => (
+                  <Textarea
+                    {...field}
+                    className="bg-zinc-950 border-zinc-800 rounded-xl h-20 resize-none text-white"
+                  />
+                )}
               />
             </Field>
             <Field>
@@ -186,15 +282,20 @@ export default function UpdateProjectForm({
                   The Solution
                 </span>
               </div>
-              <Textarea
-                {...form.register("solution")}
-                className="bg-zinc-950 border-zinc-800 rounded-xl h-20 resize-none"
+              <Controller
+                name="solution"
+                control={control}
+                render={({ field }) => (
+                  <Textarea
+                    {...field}
+                    className="bg-zinc-950 border-zinc-800 rounded-xl h-20 resize-none text-white"
+                  />
+                )}
               />
             </Field>
           </div>
         </section>
 
-        {/* Dynamic Grid */}
         <section className="space-y-6">
           <div className="flex justify-between items-center">
             <h3 className="text-lg font-bold tracking-tight flex items-center gap-2">
@@ -204,7 +305,7 @@ export default function UpdateProjectForm({
               type="button"
               size="sm"
               variant="outline"
-              className="rounded-lg border-zinc-800 h-8 text-xs text-black"
+              className="rounded-lg border-zinc-800 h-8 text-xs text-black bg-white hover:bg-zinc-200"
               onClick={() => appendFeature({ name: "", description: "" })}
             >
               <HiPlus className="mr-1" /> Add Capability
@@ -216,29 +317,29 @@ export default function UpdateProjectForm({
                 key={field.id}
                 className="p-4 bg-zinc-900/20 border border-zinc-800 rounded-2xl relative group space-y-2"
               >
-                <button
+                <Button
                   type="button"
                   onClick={() => removeFeature(index)}
                   className="absolute top-2 right-2 text-zinc-600 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
                 >
                   <HiTrash />
-                </button>
+                </Button>
                 <Input
-                  {...form.register(`features.${index}.name`)}
+                  {...register(`features.${index}.name`)}
                   placeholder="Capability Name"
-                  className="bg-zinc-950 border-zinc-800 rounded-lg h-10"
+                  className="bg-zinc-950 border-zinc-800 rounded-lg h-10 text-white"
                 />
                 <Textarea
-                  {...form.register(`features.${index}.description`)}
+                  {...register(`features.${index}.description`)}
                   placeholder="Description"
-                  className="bg-zinc-950 border-zinc-800 rounded-lg h-10 resize-none"
+                  className="bg-zinc-950 border-zinc-800 rounded-lg h-16 resize-none text-white"
                 />
               </div>
             ))}
           </div>
+          <FieldError>{errors.features?.message as any}</FieldError>
         </section>
 
-        {/* Tech Stack - Condensed Scroll */}
         <section className="space-y-4">
           <div className="flex items-center gap-2 text-blue-500">
             <HiOutlineCpuChip />
@@ -247,11 +348,11 @@ export default function UpdateProjectForm({
             </h3>
           </div>
           <div className="flex flex-wrap gap-2 p-4 rounded-xl bg-zinc-950 border border-zinc-800/50 min-h-12">
-            {form.watch("tech").map((t) => (
+            {watch("tech").map((t) => (
               <Badge
                 key={t}
                 onClick={() => toggleTech(t)}
-                className="bg-blue-600/10 text-blue-400 border-blue-500/20 p-3 capitalize gap-2 cursor-pointer rounded-lg hover:bg-red-500/10 hover:text-red-500"
+                className="bg-blue-600/10 text-blue-400 border-blue-500/20 p-3 capitalize gap-2 cursor-pointer rounded-lg hover:bg-red-500/10 hover:text-red-500 transition-colors"
               >
                 <span className="text-sm">
                   {IconMap[t as keyof typeof IconMap]}
@@ -263,18 +364,18 @@ export default function UpdateProjectForm({
           <ScrollArea className="h-40 w-full rounded-xl border border-zinc-800 bg-zinc-900/30 p-4">
             <div className="grid grid-cols-3 sm:grid-cols-6 md:grid-cols-10 gap-2">
               {availableTech.map((key) => {
-                const isSelected = form.watch("tech").includes(key);
+                const isSelected = watch("tech").includes(key);
                 return (
                   <button
                     key={key}
                     type="button"
                     onClick={() => toggleTech(key)}
-                    className={`flex flex-col items-center p-2 rounded-lg border transition-all ${isSelected ? "bg-blue-600 border-blue-400" : "bg-zinc-900 border-zinc-800 text-zinc-600"}`}
+                    className={`flex flex-col items-center p-2 rounded-lg border transition-all ${isSelected ? "bg-blue-600 border-blue-400" : "bg-zinc-900 border-zinc-800 text-zinc-600 hover:border-zinc-500"}`}
                   >
                     <span className="text-lg">
                       {IconMap[key as keyof typeof IconMap]}
                     </span>
-                    <span className="text-[8px] uppercase font-bold mt-1">
+                    <span className="text-[8px] text-white uppercase font-bold mt-1">
                       {key}
                     </span>
                   </button>
@@ -282,23 +383,32 @@ export default function UpdateProjectForm({
               })}
             </div>
           </ScrollArea>
+          <FieldError>{errors.tech?.message}</FieldError>
         </section>
 
-        {/* Footer */}
         <footer className="flex justify-end gap-4 pt-8 border-t border-zinc-800">
           <Button
             type="button"
             variant="outline"
             onClick={onCancel}
-            className="text-black px-6 h-12 rounded-xl"
+            disabled={isLoading}
+            className="text-black px-6 h-12 rounded-xl bg-white hover:bg-zinc-200"
           >
             Cancel
           </Button>
           <Button
             type="submit"
-            className="bg-blue-600 hover:bg-blue-500 text-white rounded-xl px-10 h-12 font-bold shadow-xl shadow-blue-600/20"
+            disabled={isLoading}
+            className="bg-blue-600 hover:bg-blue-500 text-white rounded-xl px-10 h-12 font-bold shadow-xl shadow-blue-600/20 disabled:opacity-50"
           >
-            <FiSave className="mr-2" /> Update Project
+            {isLoading ? (
+              "Saving..."
+            ) : (
+              <>
+                <FiSave className="mr-2" />{" "}
+                {initialData?._id ? "Update" : "Save"} Project
+              </>
+            )}
           </Button>
         </footer>
       </form>

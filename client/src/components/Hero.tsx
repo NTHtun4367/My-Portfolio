@@ -6,6 +6,7 @@ import { containerVariants, itemVariants } from "../utils/variants";
 
 import profile from "@/assets/profile.jpg";
 import useMediaQuery from "../hooks/useMediaQuery";
+import ThreeDCard from "./ThreeDCard";
 
 export default function Hero() {
   const [text, setText] = useState("");
@@ -43,7 +44,7 @@ export default function Hero() {
     <>
       <section
         id="home"
-        className="relative min-h-screen flex items-center justify-center md:pt-12 md:px-6 overflow-hidden"
+        className={`relative min-h-screen flex items-center justify-center md:pt-12 md:px-6 overflow-hidden ${!isDesktop && "pt-28 pb-28"}`}
       >
         <motion.div
           variants={containerVariants}
@@ -52,12 +53,12 @@ export default function Hero() {
           className="relative z-10 max-w-6xl w-full flex flex-col md:flex-row items-center justify-between gap-12"
         >
           {/* left column */}
-          <div className="flex flex-col items-start">
+          <div className="flex flex-col items-center text-center md:items-start md:text-left">
             <motion.p
               variants={itemVariants}
               className="text-zinc-400 mb-2 font-medium tracking-wide"
             >
-              FullStack Developer
+              Full-Stack Developer
             </motion.p>
 
             <motion.h1
@@ -73,15 +74,15 @@ export default function Hero() {
 
             <motion.p
               variants={itemVariants}
-              className="mt-8 text-zinc-400 max-w-xl text-sm md:text-lg font-light leading-relaxed"
+              className="mt-8 text-zinc-400 max-w-xl text-sm md:text-lg font-light leading-relaxed mx-auto md:mx-0"
             >
-              A 21-year-old developer motivated to build modern and useful web
+              A 21-year-old developer motivated to build modern, functional web
               apps. I enjoy turning ideas into real products with clean code.
             </motion.p>
 
             <motion.div
               variants={itemVariants}
-              className="mt-10 flex items-center gap-5"
+              className="mt-10 flex flex-wrap items-center justify-center md:justify-start gap-5"
             >
               <a
                 href="#projects"
@@ -102,7 +103,7 @@ export default function Hero() {
           {/* right column */}
           <motion.div
             variants={itemVariants}
-            className={`relative flex items-center justify-center ${!isDesktop && "hidden"}`}
+            className={`relative flex items-center justify-center ${!isDesktop && "pt-8"}`}
           >
             <motion.div
               animate={{ rotate: 360 }}
@@ -110,50 +111,18 @@ export default function Hero() {
               className="absolute w-80 h-80 sm:w-112.5 sm:h-112.5 rounded-full border-4 border-dashed border-blue-400/50"
             />
 
-            <div className="w-64 h-64 sm:w-95 sm:h-95 rounded-full overflow-hidden border border-zinc-800 bg-zinc-900 shadow-2xl relative z-10">
-              <img
-                src={profile}
-                alt="Nay Thu Htun"
-                className="w-full h-full object-cover"
-              />
-            </div>
+            <ThreeDCard>
+              <div className="w-64 h-64 sm:w-95 sm:h-95 rounded-full overflow-hidden border border-zinc-800 bg-zinc-900 shadow-2xl relative z-10">
+                <img
+                  src={profile}
+                  alt="Nay Thu Htun"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </ThreeDCard>
           </motion.div>
         </motion.div>
       </section>
-
-      {/* Code Block */}
-      {/* <motion.div
-        variants={{
-          hidden: { y: 25, opacity: 0 },
-          visible: {
-            y: 0,
-            opacity: 1,
-            transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
-          },
-        }}
-        className="max-w-6xl mx-auto hidden md:block bg-zinc-900/80 border border-zinc-800 p-6 rounded-3xl font-mono text-xs text-zinc-500 shadow-2xl backdrop-blur-sm"
-      >
-        <div className="flex gap-1.5 mb-5">
-          <div className="size-3 rounded-full bg-red-500/80" />
-          <div className="size-3 rounded-full bg-yellow-500/80" />
-          <div className="size-3 rounded-full bg-green-500/80" />
-        </div>
-        <code className="block text-blue-400">const</code> developer = {"{"}
-        <code className="ml-4 block">
-          name: <span className="text-emerald-400">'Nay Thu Htun'</span>,
-        </code>
-        <code className="ml-4 block">
-          role: <span className="text-emerald-400">'Full Stack'</span>,
-        </code>
-        <code className="ml-4 block">
-          tech: [<span className="text-emerald-400">'React', 'Node', 'TS'</span>
-          ],
-        </code>
-        <code className="ml-4 block">
-          seeking: <span className="text-cyan-400">true</span>
-        </code>
-        {"};"}
-      </motion.div> */}
     </>
   );
 }

@@ -4,29 +4,29 @@ import { IconMap } from "../common/Icons";
 
 const SKILL_GROUPS = [
   {
-    title: "Fullstack Expertise",
+    title: "Full-Stack Expertise",
     description: "Main stack for building scalable web apps",
     skills: [
-      { name: "React", icon: IconMap["react"], color: "text-cyan-400" },
-      { name: "Next.js", icon: IconMap["nextjs"], color: "text-white" },
+      { name: "React", icon: IconMap["react"], color: "" },
+      { name: "Next.js", icon: IconMap["nextjs"], color: "" },
       {
         name: "TypeScript",
         icon: IconMap["typescript"],
-        color: "text-blue-600",
+        color: "",
       },
-      { name: "Node.js", icon: IconMap["node"], color: "text-green-500" },
-      { name: "Tailwind", icon: IconMap["tailwind"], color: "text-sky-400" },
-      { name: "Redux / RTK", icon: IconMap["redux"], color: "text-purple-500" },
+      { name: "Node.js", icon: IconMap["node"], color: "" },
+      { name: "Tailwind", icon: IconMap["tailwind"], color: "" },
+      { name: "Redux / RTK", icon: IconMap["redux"], color: "" },
       {
         name: "Zustand",
         icon: <span className="font-bold">Z</span>,
         color: "text-amber-700",
       },
-      { name: "Shadcn UI", icon: IconMap["shadcn"], color: "text-white" },
+      { name: "Shadcn UI", icon: IconMap["shadcn"], color: "" },
       {
         name: "Framer Motion",
         icon: IconMap["framer"],
-        color: "text-pink-500",
+        color: "",
       },
     ],
   },
@@ -34,20 +34,20 @@ const SKILL_GROUPS = [
     title: "Backend & Database",
     description: "Architecture and data management",
     skills: [
-      { name: "Express", icon: IconMap["express"], color: "text-zinc-400" },
-      { name: "MongoDB", icon: IconMap["mongodb"], color: "text-emerald-500" },
-      { name: "Mongoose", icon: IconMap["mongoose"], color: "text-red-600" },
+      { name: "Express", icon: IconMap["express"], color: "" },
+      { name: "MongoDB", icon: IconMap["mongodb"], color: "" },
+      { name: "Mongoose", icon: IconMap["mongoose"], color: "" },
       {
         name: "PostgreSQL",
         icon: IconMap["postgresql"],
-        color: "text-indigo-400",
+        color: "",
       },
-      { name: "MySQL", icon: IconMap["mysql"], color: "text-blue-400" },
-      { name: "Drizzle", icon: IconMap["drizzle"], color: "text-[#C5F74F]" },
+      { name: "MySQL", icon: IconMap["mysql"], color: "" },
+      { name: "Drizzle", icon: IconMap["drizzle"], color: "" },
       {
         name: "Cloudinary",
         icon: IconMap["cloudinary"],
-        color: "text-blue-400",
+        color: "",
       },
       {
         name: "REST APIs",
@@ -60,16 +60,16 @@ const SKILL_GROUPS = [
     title: "Academic Foundation",
     description: "Core Computer Science from University",
     skills: [
-      { name: "C Language", icon: IconMap["c"], color: "text-blue-500" },
-      { name: "C++", icon: IconMap["cpp"], color: "text-blue-600" },
-      { name: "Java", icon: IconMap["java"], color: "text-orange-500" },
-      { name: "PHP", icon: IconMap["php"], color: "text-indigo-400" },
-      { name: "HTML5", icon: IconMap["html"], color: "text-orange-500" },
-      { name: "CSS3", icon: IconMap["css"], color: "text-blue-500" },
+      { name: "C Language", icon: IconMap["c"], color: "" },
+      { name: "C++", icon: IconMap["cpp"], color: "" },
+      { name: "Java", icon: IconMap["java"], color: "" },
+      { name: "PHP", icon: IconMap["php"], color: "" },
+      { name: "HTML5", icon: IconMap["html"], color: "" },
+      { name: "CSS3", icon: IconMap["css"], color: "" },
       {
         name: "JavaScript",
         icon: IconMap["javascript"],
-        color: "text-yellow-400",
+        color: "",
       },
     ],
   },
@@ -77,22 +77,22 @@ const SKILL_GROUPS = [
     title: "Tools & Learning",
     description: "Workflow, DevOps & Future paths",
     skills: [
-      { name: "Git", icon: IconMap["git"], color: "text-orange-600" },
-      { name: "GitHub", icon: IconMap["github"], color: "text-white" },
-      { name: "Docker", icon: IconMap["docker"], color: "text-blue-500" },
-      { name: "Figma", icon: IconMap["figma"], color: "text-purple-400" },
-      { name: "Postman", icon: IconMap["postman"], color: "text-orange-500" },
-      { name: "Cypress", icon: IconMap["cypress"], color: "text-emerald-400" },
+      { name: "Git", icon: IconMap["git"], color: "" },
+      { name: "GitHub", icon: IconMap["github"], color: "" },
+      { name: "Docker", icon: IconMap["docker"], color: "" },
+      { name: "Figma", icon: IconMap["figma"], color: "" },
+      { name: "Postman", icon: IconMap["postman"], color: "" },
+      { name: "Cypress", icon: IconMap["cypress"], color: "" },
       {
         name: "React Native",
         icon: IconMap["react"],
-        color: "text-cyan-400",
+        color: "",
         isLearning: true,
       },
       {
         name: "Python (AI)",
         icon: IconMap["python"],
-        color: "text-yellow-500",
+        color: "",
         isLearning: true,
       },
     ],
@@ -133,7 +133,7 @@ export default function Skills() {
             Skills & <span className="text-blue-400">Expertise</span>
           </motion.h2>
           <p className="text-zinc-500 font-mono text-base">
-            Bridging University Foundation with Fullstack Industry Standards
+            Bridging University Foundation with Full-Stack Industry Standards
           </p>
         </div>
 

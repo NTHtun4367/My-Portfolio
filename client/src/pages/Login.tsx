@@ -1,35 +1,59 @@
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { HiLockClosed, HiEnvelope, HiArrowRight } from "react-icons/hi2";
-import { Button } from "../components/ui/button";
+import { useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
+import { loginSchema, type LoginFormInputs } from "../schema/auth";
+import { useLoginMutation } from "../store/slices/userApi";
+import type { RootState } from "../store";
+import { setUserInfo } from "../store/slices/auth";
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "../components/ui/field";
 import { Input } from "../components/ui/input";
-import { Field, FieldError, FieldLabel } from "../components/ui/field";
-import { loginSchema, type LoginFormValues } from "../schema/auth";
+import { Button } from "../components/ui/button";
 
 export default function AdminLogin() {
-  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [loginMutation, { isLoading }] = useLoginMutation();
+  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginFormValues>({
+  // Initialize Hook Form
+  const form = useForm<LoginFormInputs>({
     resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
 
-  const onSubmit = async (data: LoginFormValues) => {
-    setIsLoading(true);
+  // Redirect if already logged in
+  useEffect(() => {
+    if (userInfo) navigate("/admin");
+  }, [navigate, userInfo]);
+
+  // Submit Handler
+  const onSubmit = async (data: LoginFormInputs) => {
     try {
-      console.log("Attempting login...", data);
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-    } finally {
-      setIsLoading(false);
+      const response = await loginMutation(data).unwrap();
+      dispatch(setUserInfo(response));
+      form.reset();
+      toast.success("Login successful");
+      navigate("/admin");
+    } catch (error: any) {
+      toast.error(error?.data?.message || "Invalid credentials");
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0c] flex items-center justify-center p-6">
+    <div className="min-h-screen bg-[#0a0a0c] flex items-center justify-center p-6 relative overflow-hidden">
+      {/* Background Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-125 h-125 bg-blue-600/10 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="w-full max-w-md z-10">
@@ -44,63 +68,91 @@ export default function AdminLogin() {
             </h1>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            {/* Email Field */}
-            <Field>
-              <FieldLabel className="text-zinc-400 ml-1">
-                Email Address
-              </FieldLabel>
-              <div className="relative">
-                <HiEnvelope
-                  className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500"
-                  size={20}
-                />
-                <Input
-                  {...register("email")}
-                  type="email"
-                  placeholder="admin@portfolio.com"
-                  className="text-white bg-zinc-950 border-zinc-800 pl-12 h-14 rounded-xl focus:ring-blue-500 transition-all"
-                />
-              </div>
-              <FieldError>{errors.email?.message}</FieldError>
-            </Field>
+          <form id="admin-login-form" onSubmit={form.handleSubmit(onSubmit)}>
+            <FieldGroup className="space-y-4">
+              {/* Email Field */}
+              <Controller
+                name="email"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel className="text-zinc-400 ml-1">
+                      Email Address
+                    </FieldLabel>
+                    <div className="relative">
+                      <HiEnvelope
+                        className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 z-20"
+                        size={20}
+                      />
+                      <Input
+                        {...field}
+                        type="email"
+                        id="email"
+                        aria-invalid={fieldState.invalid}
+                        placeholder="admin@portfolio.com"
+                        className="text-white bg-zinc-950 border-zinc-800 pl-12 h-14 rounded-xl focus:ring-blue-500 transition-all"
+                      />
+                    </div>
+                    {fieldState.invalid && (
+                      <FieldError className="text-red-500 text-xs mt-1 ml-1">
+                        {fieldState.error?.message}
+                      </FieldError>
+                    )}
+                  </Field>
+                )}
+              />
 
-            {/* Password Field */}
-            <Field>
-              <FieldLabel className="text-zinc-400 ml-1">Password</FieldLabel>
-              <div className="relative">
-                <HiLockClosed
-                  className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500"
-                  size={20}
-                />
-                <Input
-                  {...register("password")}
-                  type="password"
-                  placeholder="••••••••"
-                  className="text-white bg-zinc-950 border-zinc-800 pl-12 h-14 rounded-xl focus:ring-blue-500 transition-all"
-                />
-              </div>
-              <FieldError>{errors.password?.message}</FieldError>
-            </Field>
+              {/* Password Field */}
+              <Controller
+                name="password"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel className="text-zinc-400 ml-1">
+                      Password
+                    </FieldLabel>
+                    <div className="relative">
+                      <HiLockClosed
+                        className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 z-20"
+                        size={20}
+                      />
+                      <Input
+                        {...field}
+                        type="password"
+                        id="password"
+                        aria-invalid={fieldState.invalid}
+                        placeholder="••••••••"
+                        className="text-white bg-zinc-950 border-zinc-800 pl-12 h-14 rounded-xl focus:ring-blue-500 transition-all"
+                      />
+                    </div>
+                    {fieldState.invalid && (
+                      <FieldError className="text-red-500 text-xs mt-1 ml-1">
+                        {fieldState.error?.message}
+                      </FieldError>
+                    )}
+                  </Field>
+                )}
+              />
 
-            {/* Submit Button */}
-            <Button
-              type="submit"
-              disabled={isLoading}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white h-14 rounded-xl font-bold text-lg shadow-lg shadow-blue-900/20 transition-all active:scale-[0.98] group"
-            >
-              {isLoading ? (
-                <div className="flex items-center gap-2">
-                  <div className="size-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  Authenticating...
-                </div>
-              ) : (
-                <div className="flex items-center justify-center gap-2">
-                  Authorize Access{" "}
-                  <HiArrowRight className="group-hover:translate-x-1 transition-transform" />
-                </div>
-              )}
-            </Button>
+              {/* Submit Button */}
+              <Button
+                type="submit"
+                disabled={isLoading}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white h-14 rounded-xl font-bold text-lg shadow-lg shadow-blue-900/20 transition-all active:scale-[0.98] group"
+              >
+                {isLoading ? (
+                  <div className="flex items-center gap-2">
+                    <div className="size-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    Authenticating...
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-center gap-2">
+                    Authorize Access{" "}
+                    <HiArrowRight className="group-hover:translate-x-1 transition-transform" />
+                  </div>
+                )}
+              </Button>
+            </FieldGroup>
           </form>
 
           {/* Footer Note */}

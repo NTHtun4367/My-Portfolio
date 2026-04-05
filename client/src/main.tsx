@@ -6,6 +6,11 @@ import Main from "./layouts/Main";
 import Index from "./pages/Index";
 import AdminPanel from "./pages/AdminPanel";
 import AdminLogin from "./pages/Login";
+import { Provider } from "react-redux";
+import { store } from "./store";
+import { Toaster } from "./components/ui/sonner";
+import ProjectDetails from "./components/ProjectDetails";
+import Protect from "./pages/protector/Protect";
 
 const router = createBrowserRouter([
   {
@@ -17,19 +22,30 @@ const router = createBrowserRouter([
         element: <Index />,
       },
       {
-        path: "/admin",
-        element: <AdminPanel />,
+        path: "/project/:id",
+        element: <ProjectDetails />,
       },
       {
-        path: "/login",
-        element: <AdminLogin />,
+        path: "/admin",
+        element: (
+          <Protect>
+            <AdminPanel />
+          </Protect>
+        ),
       },
     ],
+  },
+  {
+    path: "/login",
+    element: <AdminLogin />,
   },
 ]);
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+      <Toaster richColors position="top-center" />
+    </Provider>
   </StrictMode>,
 );

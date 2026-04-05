@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
-import { HiCode, HiMenu, HiX } from "react-icons/hi";
+import { HiMenu, HiX } from "react-icons/hi";
+import { Link } from "react-router";
 
 const navLinks = [
   { name: "Home", href: "#home" },
@@ -44,12 +45,15 @@ export default function Navbar() {
         {/* Main Bar */}
         <div className="flex items-center justify-between p-4 px-6">
           {/* Logo */}
-          <a
-            href="#home"
-            className="flex items-center gap-2 font-bold text-xl tracking-tighter"
-          >
-            <HiCode className="text-blue-500 size-6" />
-          </a>
+          <Link to="/" className="group flex items-center">
+            <div className="flex items-end font-mono text-zinc-600 group-hover:text-blue-400 transition-colors">
+              <span className="text-2xl font-black text-blue-500 relative">
+                N
+                <span className="absolute -bottom-1 left-0 w-full h-1 bg-white/20 rounded-full" />
+              </span>
+              <span className="text-lg font-bold -ml-1 text-white">TH</span>
+            </div>
+          </Link>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-6 text-sm font-medium text-zinc-300">
@@ -68,20 +72,20 @@ export default function Navbar() {
           {/* Right Section: Socials (Desktop) & Hamburger (Mobile) */}
           <div className="flex items-center gap-4">
             <div className="hidden sm:flex items-center gap-4 text-zinc-400">
-              <a
-                href="https://github.com/NTHtun4367"
+              <Link
+                to="https://github.com/NTHtun4367"
                 target="_blank"
                 className="hover:text-white hover:scale-110 transition-transform"
               >
                 <FaGithub size={20} />
-              </a>
-              <a
-                href="https://linkedin.com/in/https://mm.linkedin.com/in/nay-thu-htun-372704318"
+              </Link>
+              <Link
+                to="https://www.linkedin.com/in/nay-thu-htun-372704318/"
                 target="_blank"
                 className="hover:text-blue-400 hover:scale-110 transition-transform"
               >
                 <FaLinkedin size={20} />
-              </a>
+              </Link>
             </div>
 
             {/* Mobile Toggle Button */}
@@ -118,12 +122,12 @@ export default function Navbar() {
 
               {/* Mobile Socials (visible only on very small screens if hidden in main bar) */}
               <div className="flex sm:hidden gap-4 pt-4 border-t border-zinc-800/50 text-zinc-400">
-                <a href="https://github.com/NTHtun4367">
+                <Link to="https://github.com/NTHtun4367">
                   <FaGithub size={20} />
-                </a>
-                <a href="https://linkedin.com/in/https://mm.linkedin.com/in/nay-thu-htun-372704318">
+                </Link>
+                <Link to="https://www.linkedin.com/in/nay-thu-htun-372704318/">
                   <FaLinkedin size={20} />
-                </a>
+                </Link>
               </div>
             </motion.div>
           )}

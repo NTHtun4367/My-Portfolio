@@ -1,0 +1,33 @@
+import { v2 as cloudinary } from "cloudinary";
+import { ENV } from "./env";
+
+cloudinary.config({
+  cloud_name: ENV.CLOUDINARY_CLOUD_NAME,
+  api_key: ENV.CLOUDINARY_API_KEY,
+  api_secret: ENV.CLOUDINARY_API_SECRET,
+});
+
+export const uploadSingleImage = async (image: string, folder_name: string) => {
+  try {
+    const response = await cloudinary.uploader.upload(image, {
+      folder: folder_name,
+      resource_type: "auto",
+      timeout: 60000,
+    });
+    return {
+      image_url: response.secure_url,
+      public_alt: response.public_id,
+    };
+  } catch (error: any) {
+    const errorMessage =
+      error.message || (error.error && error.error.message) || "Unknown Error";
+    console.error("Cloudinary Error Detail:", error);
+    throw new Error(`Cloudinary Error: ${errorMessage}`);
+  }
+};
+
+export const deleteImage = async (public_alt: string) => {
+  const response = await cloudinary.uploader.destroy(public_alt);
+
+  return response?.result === "ok";
+};

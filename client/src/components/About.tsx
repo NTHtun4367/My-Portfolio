@@ -75,7 +75,7 @@ export default function AboutNarrative() {
               <p className="text-zinc-300 text-lg md:text-xl leading-relaxed font-light">
                 I'm{" "}
                 <span className="text-white font-medium">
-                  Full-Stack Developer
+                  a Full-Stack Developer
                 </span>{" "}
                 with 2+ years of experience in the React ecosystem. I specialize
                 in building robust backends with Node.js and crafting
@@ -121,7 +121,7 @@ export default function AboutNarrative() {
               </h4>
             </div>
             <p className="text-zinc-500 text-base leading-relaxed">
-              Currently deep-diving into{" "}
+              I'm currently deep-diving into{" "}
               <span className="text-zinc-300 font-medium">Python for AI</span>{" "}
               and{" "}
               <span className="text-zinc-300 font-medium">React Native</span>.
