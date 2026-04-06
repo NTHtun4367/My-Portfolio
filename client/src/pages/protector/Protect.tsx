@@ -11,26 +11,30 @@ function Protect({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { isError, isLoading } = useGetMeQuery(undefined, {
+  const { isError, isLoading, isFetching } = useGetMeQuery(undefined, {
+    // Only run the DB check if we actually have userInfo in Redux
     skip: !userInfo,
   });
 
   useEffect(() => {
-    // No local user info found
+    // If there is NO userInfo in Redux, go to login
     if (!userInfo) {
-      navigate("/login");
+      navigate("/login", { replace: true });
       return;
     }
 
-    // DB check failed (User deleted, token expired, or modified in DB)
-    if (isError) {
+    // ONLY kick the user out if the API call is finished and definitely failed
+    // Check !isFetching to ensure the request isn't still in flight
+    if (isError && !isFetching) {
       dispatch(clearUserInfo());
-      navigate("/login");
+      navigate("/login", { replace: true });
     }
-  }, [userInfo, isError, navigate, dispatch]);
+  }, [userInfo, isError, isFetching, navigate, dispatch]);
 
-  // Show a loading state while checking the database
-  if (isLoading) {
+  // Show loading while the initial check is happening
+  if (isLoading || (userInfo && isFetching)) {
+    console.log(isLoading, userInfo, isFetching);
+
     return (
       <div className="min-h-screen bg-[#0a0a0c] flex items-center justify-center text-white font-mono">
         Verifying Session...
@@ -38,7 +42,7 @@ function Protect({ children }: { children: React.ReactNode }) {
     );
   }
 
-  // Only render children if we have a local user and the DB check didn't fail
+  // Final check: only show content if we have info and NO error
   return userInfo && !isError ? <>{children}</> : null;
 }
 

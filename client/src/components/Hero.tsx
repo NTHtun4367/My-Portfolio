@@ -90,14 +90,14 @@ export default function Hero() {
               >
                 View Projects <HiArrowUpRight />
               </a>
-
               <a
-                href="../../public/CV Resume.pdf"
+                href="/CV-Resume.pdf"
                 target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center gap-2 px-6 py-3 text-xs md:text-base border-2 border-dashed border-blue-400 text-blue-400 rounded-full hover:bg-blue-400/10 transition-colors font-semibold"
               >
                 Download CV <FiDownload />
-              </a>
+              </a>{" "}
             </motion.div>
           </div>
 

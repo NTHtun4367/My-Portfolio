@@ -54,7 +54,7 @@ export default function ProjectDetails() {
 
           <div className="grid grid-cols-1 lg:grid-cols-[1.8fr_1fr] gap-16">
             <div className="space-y-12">
-              <div className="flex items-end justify-between">
+              <div className="flex flex-col md:flex-row items-start gap-3 md:gap-0 md:items-end justify-between">
                 <h1 className="text-4xl md:text-6xl font-bold tracking-tighter mt-4 bg-linear-to-b from-white to-zinc-500 bg-clip-text text-transparent">
                   {project.title}
                 </h1>

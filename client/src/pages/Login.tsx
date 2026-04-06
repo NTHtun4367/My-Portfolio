@@ -45,11 +45,16 @@ export default function AdminLogin() {
       dispatch(setUserInfo(response));
       form.reset();
       toast.success("Login successful");
-      navigate("/admin");
     } catch (error: any) {
       toast.error(error?.data?.message || "Invalid credentials");
     }
   };
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/admin", { replace: true });
+    }
+  }, [navigate, userInfo]);
 
   return (
     <div className="min-h-screen bg-[#0a0a0c] flex items-center justify-center p-6 relative overflow-hidden">
@@ -89,7 +94,7 @@ export default function AdminLogin() {
                         type="email"
                         id="email"
                         aria-invalid={fieldState.invalid}
-                        placeholder="admin@portfolio.com"
+                        placeholder="abcd@example.com"
                         className="text-white bg-zinc-950 border-zinc-800 pl-12 h-14 rounded-xl focus:ring-blue-500 transition-all"
                       />
                     </div>

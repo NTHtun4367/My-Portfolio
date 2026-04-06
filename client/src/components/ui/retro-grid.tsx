@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import type { CSSProperties, HTMLAttributes } from "react"
 
-import { cn } from "@/lib/utils"
+import { cn } from "../../lib/utils"
 
 const ANIMATION_DURATION_SECONDS = 15
 const GRID_HEIGHT_RATIO = 3
