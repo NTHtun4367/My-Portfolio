@@ -80,7 +80,7 @@ export default function Navbar() {
                 <FaGithub size={20} />
               </Link>
               <Link
-                to="https://www.linkedin.com/in/nay-thu-htun-372704318/"
+                to="https://www.linkedin.com/in/nay-thu-htun"
                 target="_blank"
                 className="hover:text-blue-400 hover:scale-110 transition-transform"
               >
@@ -125,7 +125,7 @@ export default function Navbar() {
                 <Link to="https://github.com/NTHtun4367">
                   <FaGithub size={20} />
                 </Link>
-                <Link to="https://www.linkedin.com/in/nay-thu-htun-372704318/">
+                <Link to="https://www.linkedin.com/in/nay-thu-htun">
                   <FaLinkedin size={20} />
                 </Link>
               </div>

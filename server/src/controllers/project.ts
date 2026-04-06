@@ -120,7 +120,7 @@ export const updateProject = asyncHandler(
     const updatedProject = await Project.findByIdAndUpdate(
       projectId,
       updateData,
-      { new: true, runValidators: true },
+      { returnDocument: "after", runValidators: true },
     );
     res.status(200).json(updatedProject);
   },

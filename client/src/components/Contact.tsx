@@ -154,7 +154,7 @@ export default function Contact() {
                 },
                 {
                   icon: <FaLinkedin />,
-                  link: "https://www.linkedin.com/in/nay-thu-htun-372704318/",
+                  link: "https://www.linkedin.com/in/nay-thu-htun",
                   color: "hover:text-blue-400",
                 },
               ].map((social, i) => (

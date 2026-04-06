@@ -93,6 +93,7 @@ export default function Hero() {
 
               <a
                 href="../../public/CV Resume.pdf"
+                target="_blank"
                 className="flex items-center gap-2 px-6 py-3 text-xs md:text-base border-2 border-dashed border-blue-400 text-blue-400 rounded-full hover:bg-blue-400/10 transition-colors font-semibold"
               >
                 Download CV <FiDownload />

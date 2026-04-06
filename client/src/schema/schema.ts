@@ -14,8 +14,7 @@ export const projectSchema = z.object({
         (typeof file === "object" && file.url) ||
         typeof file === "string",
       "Invalid image format",
-    )
-    .optional(),
+    ),
   description: z.string().min(10, "Summary must be at least 10 characters"),
   longDescription: z.string().min(20, "Detailed story is required"),
   problem: z.string().optional(),

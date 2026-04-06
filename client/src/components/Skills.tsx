@@ -19,8 +19,8 @@ const SKILL_GROUPS = [
       { name: "Redux / RTK", icon: IconMap["redux"], color: "" },
       {
         name: "Zustand",
-        icon: <span className="font-bold">Z</span>,
-        color: "text-amber-700",
+        icon: IconMap["zustand"],
+        color: "",
       },
       { name: "Shadcn UI", icon: IconMap["shadcn"], color: "" },
       {

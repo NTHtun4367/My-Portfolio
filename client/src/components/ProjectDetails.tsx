@@ -13,6 +13,7 @@ import { IconMap } from "../common/Icons";
 import { Badge } from "./ui/badge";
 import Footer from "./Footer";
 import Navbar from "./NavBar";
+import ScrollToTop from "./ScrollToTop";
 
 export default function ProjectDetails() {
   const { id } = useParams();
@@ -40,7 +41,7 @@ export default function ProjectDetails() {
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: -20 }}
         transition={{ duration: 0.4 }}
-        className="min-h-screen py-12 md:py-36 px-6 text-white"
+        className="min-h-screen py-28 md:py-36 px-6 text-white"
       >
         <div className="max-w-6xl mx-auto">
           <button
@@ -178,6 +179,7 @@ export default function ProjectDetails() {
           </div>
         </div>
       </motion.section>
+      <ScrollToTop />
       <Footer />
     </div>
   );

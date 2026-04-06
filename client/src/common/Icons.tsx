@@ -1,6 +1,7 @@
 import type { JSX } from "react";
-import { FaGithub, FaLinkedin, FaCode } from "react-icons/fa";
-import { HiOutlineCpuChip, HiOutlineLockClosed } from "react-icons/hi2"; // Added HiOutlineLockClosed
+import { FaGithub, FaLinkedin, FaCode, FaAws } from "react-icons/fa";
+import { HiOutlineCpuChip, HiOutlineLockClosed } from "react-icons/hi2";
+import { GiBearFace } from "react-icons/gi";
 import {
   SiHtml5,
   SiCss,
@@ -30,7 +31,14 @@ import {
   SiPhp,
   SiCypress,
   SiPostman,
-  SiStripe, // Added SiStripe
+  SiStripe,
+  SiVercel,
+  SiRender,
+  SiLinux,
+  SiRedis,
+  SiKubernetes,
+  SiJest,
+  SiVitest,
 } from "react-icons/si";
 
 export const IconMap: Record<string, JSX.Element> = {
@@ -56,6 +64,7 @@ export const IconMap: Record<string, JSX.Element> = {
   framer: <SiFramer className="text-pink-500" />,
   tailwind: <SiTailwindcss className="text-sky-400" />,
   shadcn: <SiShadcnui className="text-white" />,
+  zustand: <GiBearFace color="#443322" />,
 
   // Backend & Database
   node: <SiNodedotjs className="text-green-500" />,
@@ -78,6 +87,20 @@ export const IconMap: Record<string, JSX.Element> = {
   cypress: <SiCypress className="text-emerald-400" />,
   postman: <SiPostman className="text-orange-500" />,
   groq: <HiOutlineCpuChip className="text-orange-500" />,
+
+  // Infrastructure & DevOps (The "Engineer" Toolkit)
+  linux: <SiLinux className="text-white" />,
+  aws: <FaAws className="text-[#FF9900]" />,
+  kubernetes: <SiKubernetes className="text-blue-500" />,
+  redis: <SiRedis className="text-red-600" />,
+
+  // Testing
+  jest: <SiJest className="text-[#C21325]" />,
+  vitest: <SiVitest className="text-yellow-500" />,
+
+  // Deployment & Hosting
+  vercel: <SiVercel className="text-white" />,
+  render: <SiRender className="text-emerald-400" />,
 
   code: <FaCode className="text-blue-500" />,
   default: <FaCode className="text-blue-500" />,
