@@ -33,8 +33,6 @@ function Protect({ children }: { children: React.ReactNode }) {
 
   // Show loading while the initial check is happening
   if (isLoading || (userInfo && isFetching)) {
-    console.log(isLoading, userInfo, isFetching);
-
     return (
       <div className="min-h-screen bg-[#0a0a0c] flex items-center justify-center text-white font-mono">
         Verifying Session...
